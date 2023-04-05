@@ -1,0 +1,16 @@
+{
+    "db_hostname": "localhost",
+    "db_username": "ajuys_waqar",
+    "db_password": "bf,n4=v{F30o",
+    "db_dbname": "ajuys_Dataserver",
+    "site_url": "http:\/\/ajuys.com",
+    "server_ip": "162.254.33.106",
+    "server_port": 4545,
+    "amazon": false,
+    "amazon_bucket": "",
+    "nodejs_message_update_interval": 500,
+    "ajax_message_update_interval": 3000,
+    "ssl": false,
+    "ssl_privatekey_full_path": "",
+    "ssl_cert_full_path": ""
+}

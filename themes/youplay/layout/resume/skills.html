@@ -1,0 +1,109 @@
+
+<Table class="table user-setting-panel">
+	<Thead>
+		<th>{{LANG name}} </th>
+		<th>Action</th>
+	</Thead>
+	<tbody id="table_data">
+		{{SKILLS_LIST}}
+	</tbody>
+</Table>
+<form class="form-horizontal user-setting-panel pt_forms pt_shadow" id="skills-settings" method="POST">
+	<div class="yp_sett_header">
+		<h4>{{LANG skills}}</h4>
+	</div>
+	
+    <div class="setting-profile-alert"></div>
+	<!-- Text input-->
+	<div class="form-group col-lg-12">
+		<label class="col-md-12" for="name">{{LANG name}}*</label>
+		<div class="col-md-12">
+			<input id="name" name="name" type="text" placeholder="" class="form-control input-md"  required>
+		</div>
+	</div>
+   
+	<hr>
+	<input type="hidden" name="hash_id" value="<?php echo PT_CreateSession()?>">
+	<input type="hidden" name="user_id" value="<?= $pt->user->id ?>">
+	<input type="hidden" name="id" id="data_id" value="">
+    <input type="hidden" name="type" id="type" value="resume">
+
+	<!-- Button (Double) -->
+	<div class="form-group">
+		<div class="col-md-12">
+				<button id="submit" name="submit" class="btn btn-main setting-panel-mdbtn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> {{LANG save}}</button>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>
+
+<script>
+    $(function() {
+    	$('.show-tick').selectpicker({});
+        var form = $('form#skills-settings');
+        form.ajaxForm({
+            url: '{{LINK aj/user/skills}}?hash=' + $('.main_session').val(),
+            beforeSend: function() {
+                //form.find('button').text("{{LANG please_wait}}");
+                // FL_progressIconLoader(form.find('button'));
+                $('.last-sett-btn').find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                scrollToTop();
+                if (data.status == 200) {
+                    $('.setting-profile-alert').html('<div class="alert alert-success">' + data.message + '</div>');
+
+					$('#name').val('');
+				
+
+
+					$("#table_data").html(data.data);
+					
+                    $('.alert-success').fadeIn('fast', function() {
+                        $(this).delay(2500).slideUp(500, function() {
+                            $(this).remove();
+                        });
+                    });
+					
+                } else if (data.errors) {
+                    var errors = data.errors.join("<br>");
+                    $('.setting-profile-alert').html('<div class="alert alert-danger">' + errors + '</div>');
+                    $('.alert-danger').fadeIn(300);
+                }
+                $('.last-sett-btn').find('button').html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> {{LANG save}}');
+                // FL_progressIconLoader(form.find('button'));
+            }
+        });
+    });
+	
+	$(function() {
+        var form = $('form.delete');
+        form.ajaxForm({
+            url: '{{LINK aj/user/skills_delete}}?hash=' + $('.main_session').val(),
+            beforeSend: function() {
+                form.find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                scrollToTop();
+                if (data.status == 200) {
+                    $('.setting-delete-alert').html('<div class="alert alert-success">' + data.message + '</div>');
+                    $('.alert-success').fadeIn('fast', function() {
+                        $(this).delay(2500).slideUp(500, function() {
+                            $(this).remove();
+                        });
+                    });
+					window.location.reload();
+					// $("#table_data").html(data.data);
+                } else if (data.errors) {
+                    var errors = data.errors.join("<br>");
+                    $('.setting-delete-alert').html('<div class="alert alert-danger">' + errors + '</div>');
+                    $('.alert-danger').fadeIn(300);
+                }
+                form.find('button').html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> {{LANG delete}}');
+                // FL_progressIconLoader(form.find('button'));
+            }
+        });
+    });
+
+	
+</script>

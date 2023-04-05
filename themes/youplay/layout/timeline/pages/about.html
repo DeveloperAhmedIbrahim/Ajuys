@@ -1,0 +1,73 @@
+
+<div class="videos-latest-list play_list">
+	<h3 class="recent-articles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" fill="#04abf2"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>&nbsp;&nbsp;&nbsp;{{LANG about_profile}}</h3>
+	<div class="row pt_about">
+		<div class="col-md-8">
+			<?php if (!empty($pt->profile_user->about)) { ?>
+				<p class="user_abt">{{USER about}}</p>
+			<?php } ?>
+			
+			<h5>{{LANG gender}}: {{USER gender_text}}</h5> 
+			
+			<?php if (!empty($pt->profile_user->country_name) && $pt->profile_user->country_name != "Select Country") { ?>
+				<h5>{{LANG country}}: {{USER country_name}}</h5>
+			<?php } ?>
+			
+			<?php if (!empty($pt->custom_fields)): ?>
+				<hr>
+				<h5>{{LANG more_info}}</h5>
+				{{CUSTOM_FIELDS}}
+			<?php endif ?>
+		</div>
+		
+		<div class="col-md-4">
+			<?php if (!empty($pt->profile_user->facebook) || !empty($pt->profile_user->google) || !empty($pt->profile_user->twitter)) { ?>
+			<h5 class="social-links">{{LANG social_links}}</h5>
+			<div class="share-video">
+				<?php if (!empty($pt->profile_user->facebook)) { ?><a href="{{USER facebook}}" class="fa fa-facebook" target="_blank"></a><?php } ?>
+				<?php if (!empty($pt->profile_user->google)) { ?><a href="{{USER google}}" class="fa fa-google" target="_blank"></a><?php } ?>
+				<?php if (!empty($pt->profile_user->twitter)) { ?><a href="{{USER twitter}}" class="fa fa-twitter" target="_blank"></a><?php } ?>
+				<?php if (!empty($pt->profile_user->instagram)) { ?><a href="{{USER instagram}}" class="fa fa-instagram" target="_blank"></a><?php } ?>
+			</div>
+			<?php } ?>
+		</div>
+	</div>
+</div>
+
+<div class="videos-latest-list play_list">
+	<h3 class="recent-articles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" fill="#04abf2"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>&nbsp;&nbsp;&nbsp;{{LANG education}}</h3>
+	<hr>
+	<div class="row pt_about ">
+		<?php foreach($pt->profile_user->education as $edu) { ?>
+			<div class="col-md-3  card">
+				<h5><strong> <?= $edu->institude ?> </strong></h5>
+				<p> <?= $edu->degree ?> <span>( <?= $edu->field_of_study ?> )</span> </p>
+				<p><?= getDifferenceInDate($edu->start_date,$edu->end_date) ?></p>
+			</div>
+		<?php } ?>
+	</div>
+</div>	
+<div class="videos-latest-list play_list">
+	<h3 class="recent-articles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" fill="#04abf2"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>&nbsp;&nbsp;&nbsp;{{LANG experience}}</h3>
+	<hr>
+	<div class="row pt_about ">
+		<?php foreach($pt->profile_user->experience as $exp) { ?>
+			<div class="col-md-3  card">
+				<h5><strong> <?= $exp->title ?> </strong></h5>
+				<p> <?= $exp->company_name ?> <span>( <?= $exp->employment_type ?> )</span> </p>
+				<?php if($exp->currently_working_here){ ?>
+					<?php 
+					$date = $edu->start_date;
+
+					$createDate = new DateTime($date);
+
+					$strip = $createDate->format('Y-m-d');
+					?>
+					<p> <?=$strip?> . {{LANG persent}} </p>
+				<?php } else {?>
+				<p><?= getDifferenceInDate($edu->start_date,$edu->end_date) ?></p>
+				<?php } ?>
+			</div>
+		<?php } ?>
+	</div>
+</div>
